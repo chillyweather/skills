@@ -1,0 +1,13 @@
+{
+  "name": "dmitri-skills-marketplace",
+  "owner": {
+    "name": "Dmitri Dmitriev",
+    "email": "dmitri.dmitriev@wearekido.com"
+  },
+  "plugins": [
+    {
+      "name": "dmitri-skills",
+      "source": "./dmitri-skills"
+    }
+  ]
+}
