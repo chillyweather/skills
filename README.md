@@ -8,7 +8,7 @@ Add the marketplace, then install the plugin.
 
 ```bash
 claude
-/plugin marketplace add dmitridmitriev/skills
+/plugin marketplace add chillyweather/skills
 /plugin install dmitri-skills@dmitri-skills-marketplace
 ```
 
