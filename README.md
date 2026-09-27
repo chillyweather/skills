@@ -1,54 +1,56 @@
-# dmitri-skills
+# skills
 
-Personal Claude Code skills, packaged as a plugin marketplace.
+Personal agent skills, shared by Claude Code and Codex.
 
-## Install
-
-Add the marketplace, then install the plugin.
-
-```bash
-claude
-/plugin marketplace add chillyweather/skills
-/plugin install dmitri-skills@dmitri-skills-marketplace
-```
-
-Use a local path instead of the GitHub name when you work on the repo directly.
-
-```bash
-/plugin marketplace add ~/personal/workspace/skills
-```
+Both agents read the same format: a directory with a `SKILL.md` file.
+This repo holds one copy of each skill and links it into both agents.
 
 ## Skills
 
 | Skill | Purpose |
 | --- | --- |
-| `issue-map` | Refresh `docs/open-issue-map.md` from GitHub. Facts come from `gh`, judgment stays in the document. |
-| `explain-diff-html` | Make a rich HTML explanation of a code change, diff, branch, or pull request. |
+| None yet | |
+
+## Install
+
+```bash
+git clone git@github.com:chillyweather/skills.git ~/workspace/skills
+~/workspace/skills/scripts/install.sh
+```
+
+The script links each skill into two places:
+
+| Directory | Agent |
+| --- | --- |
+| `~/.agents/skills/<name>` | Codex |
+| `~/.claude/skills/<name>` | Claude Code |
+
+The links point back into this repo, so an edit is live at once.
+Run the script again after you add, rename, or delete a skill.
+It never overwrites a skill that it did not link.
 
 ## Layout
 
 ```
-.claude-plugin/marketplace.json   The marketplace manifest. One entry for each plugin.
-dmitri-skills/
-  .claude-plugin/plugin.json      The plugin manifest. Name, version, and description.
-  skills/
-    <skill-name>/SKILL.md         One directory for each skill.
-scripts/check-skills.sh           Validates the frontmatter of every skill.
+skills/
+  <skill-name>/
+    SKILL.md              Required. Frontmatter and instructions.
+    references/           Optional. Docs the agent reads when needed.
+    scripts/              Optional. Code the agent runs.
+    assets/               Optional. Templates and other output files.
+scripts/
+  install.sh              Links every skill into both agents.
+  check-skills.sh         Validates the frontmatter of every skill.
+AGENTS.md                 Rules for agents that write skills here.
 ```
 
 ## Add a skill
 
-1. Make the directory `dmitri-skills/skills/<skill-name>/`.
+1. Make the directory `skills/<skill-name>/`.
 2. Write `SKILL.md` in that directory.
-   The frontmatter needs a `name` field that matches the directory name, and a `description` field.
-   Add `disable-model-invocation: true` when the skill must run only from `/<skill-name>`.
-3. Put support files next to `SKILL.md`, for example `reference.md` or a `template/` directory.
-4. Run `scripts/check-skills.sh`.
-5. Raise the `version` field in `dmitri-skills/.claude-plugin/plugin.json`.
-6. Commit and push.
-
-Claude Code reads the installed copy of a plugin.
-Run `/plugin marketplace update dmitri-skills-marketplace` to get your new commits.
+3. Run `scripts/check-skills.sh`.
+4. Run `scripts/install.sh`.
+5. Commit and push.
 
 ## Skill frontmatter
 
@@ -56,9 +58,12 @@ Run `/plugin marketplace update dmitri-skills-marketplace` to get your new commi
 ---
 name: skill-name
 description: When to use this skill, and what it does.
-disable-model-invocation: true   # optional. Blocks automatic use.
 ---
 ```
 
-The `description` field is the only text Claude reads before it decides to use a skill.
+`name` must match the directory name.
+`description` is the only text an agent reads before it decides to use a skill.
 Write it as a trigger, not as a title.
+
+Keep to these two fields so the skill works in both agents.
+Claude-only fields, such as `disable-model-invocation`, are ignored by Codex.

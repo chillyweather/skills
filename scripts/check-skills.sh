@@ -4,10 +4,11 @@
 set -uo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-skills_dir="$root/dmitri-skills/skills"
+skills_dir="$root/skills"
 status=0
 
 for dir in "$skills_dir"/*/; do
+  [[ -d "$dir" ]] || continue
   skill="$(basename "$dir")"
   file="$dir/SKILL.md"
 
