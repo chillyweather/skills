@@ -9,7 +9,7 @@ This repo holds one copy of each skill and links it into both agents.
 
 | Skill | Purpose |
 | --- | --- |
-| None yet | |
+| `jellyfin-organize` | Rename and arrange a downloaded anime, series, or movie folder for Jellyfin. Adds TMDB `.nfo` files, artwork, and missing subtitles. |
 
 ## Install
 
